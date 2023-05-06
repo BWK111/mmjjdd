@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Markmap</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+#mindmap {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .modal__dialog {
+    max-width: 900px;
+    margin: 40px auto;
+  }
+  .modal__content {
+    position: relative;
+    width: 100%;
+    padding: 40px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .modal__content img{
+    max-width: 100%;
+  }
+  .modal__close {
+    position: absolute;
+    top: 8px;
+    right: 14px;
+    font-size: 30px;
+    color: #000;
+    opacity: 0.5;
+    font-weight: 700;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .show {
+    display: block;
+  }
+  .hide {
+    display: none;
+  }</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markmap-toolbar@0.14.4/dist/style.css">
+</head>
+<body>
+<svg id="mindmap"></svg>
+<script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script><script src="https://cdn.jsdelivr.net/npm/markmap-view@0.14.4"></script><script src="https://cdn.jsdelivr.net/npm/markmap-toolbar@0.14.4/dist/index.umd.min.js"></script><script>(r => {
+                setTimeout(r);
+              })(() => {
+  const {
+    markmap,
+    mm
+  } = window;
+  const toolbar = new markmap.Toolbar();
+  toolbar.attach(mm);
+  const el = toolbar.render();
+  el.setAttribute('style', 'position:absolute;bottom:20px;right:20px');
+  document.body.append(el);
+})</script><script>((getMarkmap, getOptions, root, jsonOptions) => {
+        const markmap = getMarkmap();
+        window.mm = markmap.Markmap.create('svg#mindmap', (getOptions || markmap.deriveOptions)(jsonOptions), root);
+      })(() => window.markmap,null,{"type":"heading","depth":0,"payload":{"lines":[0,1]},"content":"React JS","children":[{"type":"heading","depth":1,"payload":{"lines":[1,2]},"content":"Основы ReactJS"},{"type":"heading","depth":1,"payload":{"lines":[2,3]},"content":"<a href=\"#Ключевые-понятия-в-react.png\">Ключевые понятия</a>","children":[{"type":"heading","depth":2,"payload":{"lines":[3,4]},"content":"Компоненты","children":[{"type":"list_item","depth":3,"payload":{"lines":[4,5]},"content":"<a href=\"#иерархия_компонентов.png\">Иерархия компонентов</a>"},{"type":"list_item","depth":3,"payload":{"lines":[5,6]},"content":"<a href=\"#анатомия_компонента.png\">Анатомия компонентов</a>"},{"type":"list_item","depth":3,"payload":{"lines":[6,7]},"content":"<a href=\"#функциональные_компоненты.png\">Функциональные компоненты</a>"},{"type":"list_item","depth":3,"payload":{"lines":[7,8]},"content":"<a href=\"#классовые_компоненты.png\">Классовые компоненты</a>"},{"type":"list_item","depth":3,"payload":{"lines":[8,9]},"content":"<a href=\"#виды_компонентов.png\">! Виды компонентов </a>"}]},{"type":"heading","depth":2,"payload":{"lines":[9,10]},"content":"JSX JavaScript Syntax Extension","children":[{"type":"list_item","depth":3,"payload":{"lines":[10,11]},"content":"<a href=\"#jsx_синтаксическая_надстройка_над_js.png\">JSX - Синтаксическая надстройка на JS</a>"},{"type":"list_item","depth":3,"payload":{"lines":[11,12]},"content":"<a href=\"#jsx_корневой_элемент.png\">! JS Корневой элемент </a>"}]},{"type":"heading","depth":2,"payload":{"lines":[12,13]},"content":"Программы для разработки","children":[{"type":"list_item","depth":3,"payload":{"lines":[13,14]},"content":"<a href=\"#nodejs_npm.png\">NodeJs &amp; NPM</a>"},{"type":"list_item","depth":3,"payload":{"lines":[14,15]},"content":"<a href=\"#prettier.png\">VSCode &amp; Prettier</a>","children":[{"type":"list_item","depth":4,"payload":{"lines":[15,16]},"content":"<a href=\"#prettier_настройки_ч1.png\">Настройка форматирования кода ч.1</a>"},{"type":"list_item","depth":4,"payload":{"lines":[16,17]},"content":"<a href=\"#prettier_настройки_ч2.png\">Настройка форматирования кода ч.2</a>"}]}]}]}]},{})</script>
+<script>
+document.body.addEventListener('click', (event) => {
+    
+    if(event.target.tagName === 'A'){
+
+        const key = event.target.hash.substring(1);
+        modal(key);
+    }
+
+    if(event.target.tagName === 'DIV'){
+        if (event.target.className === 'modal__close') {
+            close_modal();
+        }
+    }
+
+});
+
+
+function modal(key){
+    let modalBox = document.createElement('div');
+    modalBox.classList.add('modal');
+    modalBox.classList.add('hide');
+    let modalDialog = document.createElement('div');
+    modalDialog.classList.add('modal__dialog');
+    let modalContent = document.createElement('div');
+    modalContent.classList.add('modal__content');
+    let closeBtn = document.createElement('div');
+    closeBtn.classList.add('modal__close');
+    closeBtn.textContent = 'close';
+    modalContent.append(closeBtn);
+
+    modalDialog.append(modalContent);
+    modalBox.append(modalDialog);
+    document.body.append(modalBox);
+
+    insertImg(key);
+
+
+    
+
+    
+    modalBox.classList.add('show');
+    modalBox.classList.remove('hide')
+    
+    document.body.style.overflow = 'hidden';
+}
+
+function close_modal(){
+    const modalCloseBox = document.querySelector('.modal');
+    modalCloseBox.remove();
+}
+
+function insertImg(key){
+    let modalContent1 = document.querySelector('.modal__content');
+    let divImg = document.createElement('img');
+    divImg.setAttribute('src', 'attachments/' + key);
+    modalContent1.append(divImg);
+}</script></body>
+</html>
